@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+          <link rel="stylesheet" href="stylesheet2.css">
+        <script src ="script.js"></script>
+  </head>
+          <body onload="loadData();">
+            <div class="edit-profile" onclick="profile_edit()">EDIT PROFILE</div>
+            <div class="logout" onclick="logout()">LOGOUT</div>
+
+          <div id="div1" class="header">
+            <h1>To Do List</h1><br> 
+
+      <div class="input-box">
+          <input type="submit" value="Add" placeholder="Add" onclick="addElement()">
+          <input type="submit" value="Delete" placeholder="Delete" onclick="deleteElement()" >
+          <input type="submit" value="Edit" placeholder="Add" onclick="editElement();">
+          <input type="submit" value="Save changes" placeholder="Add" onclick="saveElement();">
+         
+        </div>
+        <div class="filter">
+            <input type="text" placeholder="Search" name="search" id="searchid" value=""  >
+            <button type="button" name="submit" onclick="search()">Search</button>
+            <select id="searchfilter">
+              <!--  <option value="set remainder" id="remainder">Set remainder</option>
+                <option value="due date" id="duedate">Due Date</option> -->
+                <option value="" id="office">Office</option>
+                <option value="" id="Personal">Personal</option>
+            </select>
+            
+        </div><br><br><hr>
+      </div>
+      
+ <div class="add-container" >
+
+                 
+            To Do Name: <input type="text" placeholder="toDo name" name="l_name" id="todoname" value="">
+            Categories
+          <select id="category">
+              <option value="office" >Office</option>
+              <option value="Personal">Personal</option>
+              <option value="Home">Home</option>
+          </select>
+            Due Date : <input type="date" placeholder="Enter Lastname" name="l_name" id="duedate" value="" >
+            Set Remainder : <input type="date" placeholder="Set Remainder" name="l_name" id="setremainder" value="" >
+            Add todo note : <input type="text" placeholder="Add ToDo Note" name="l_name" id="addtodonote" value="" ><br><br>
+            <input type="checkbox" name="ispublic" id="makeitpublic" value="yes"> isPublic<br><br>
+            <button type="button" value="submit" onclick="addtodo()"> Add todo</button><br><br>
+
+            <table width=100% id="tableid">
+              <thead>
+              <tr>
+                <th>Delete</th>
+                <th>Todo Name</th>
+                <th>Category</th>
+                <th> Due Date</th>
+                <th> Set Remainder</th>
+                <th> Add Todo Not</th>
+                <th> is Public</th>
+              </tr>
+              </thead>
+              <tbody id="bodytable">
+                </tbody>
+             
+            </table>
+
+           
+           </div>
+        </body>
+</html>

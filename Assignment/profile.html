@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <h1> TODo App</h1><div class="logout-profile" onclick="dashboard()">DASHBOARD</div>
+       <div class="logout-profile" onclick="logout()">LOGOUT</div>
+        <img src="todo.png" alt="Avatar" class="todo-image"><br><br>
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="stylesheet2.css">
+        <link rel="stylesheet" href="stylesheet.css">
+
+        <script src="script.js"></script> 
+
+    </head>
+       
+
+        <body onload="insertDefaultValues();">
+               
+            <div class="profile-container">
+            <form name = "profile" method="post">
+                <h2> PROFILE PAGE</h2> 
+            
+                
+                Firstname : <input type="text" placeholder="Enter name" name="f_name" id="f_name" value=""  disabled><br><br>
+                Lastname : <input type="text" placeholder="Enter Lastname" name="l_name" id="l_name" value="" disabled><br><br>
+                <h4> Gender :</h4>
+                <input type="radio" class="gender"value="male" disabled> Male 
+                <input type="radio" class="gender" value="female" disabled> Female<br><br>
+
+                Address : <input type="text" placeholder="Enter address" name="add_ress" id="add_ress" value="" disabled><br><br>
+                
+                <button type="button" value="Edit" onclick="enableFields()">EDIT</button>
+                <button type="button" value="Edit" onclick="profileChanges()">SAVE</button>
+            </form>
+            </div>
+        </body>
+        </html>
