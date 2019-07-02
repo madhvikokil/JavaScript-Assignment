@@ -13,11 +13,16 @@
     <title> JavaScript Assignment </title>
     <body> 
         <div class="signup-container">
-                <div class="login" onclick="login()">LOGIN</div> <br><br>
+                <div class="login" onclick="login()">LOGIN</div> 
                     <form name="signup" method="post">
                
                
-                Firstname : <input type="text" placeholder="Enter name" name="fname" value=""><br><br>
+                   <img src="" id="profilepicture" placeholder="Profile Photo" height="80px" width="80px" />
+                   
+                   <input type="file" placeholder="set photo" id="profilepic"onclick="changeProfilePicture()"><br><br>
+               
+
+                Firstname: <input type="text" placeholder="Enter name" name="fname" value=""><br><br>
                 Lastname : <input type="text" placeholder="Enter Lastname" name="lname" value=""><br><br>
                 Username : <input type="username" placeholder="Enter Username" name="uname" value=""><br><br>
                 Password : <input type="password" placeholder="Enter Password" name="pwd" value=""><br><br>
@@ -27,6 +32,7 @@
                 <input type="radio" name="gender" value="female"> Female<br><br>
 
                 Address : <input type="text" placeholder="Enter address" name="address" value=""><br><br>
+
                 
                 <input type="submit" value="Submit" onclick="register()">
              

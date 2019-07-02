@@ -49,12 +49,19 @@ function register() {
           if(!passwordResult){
             return false;
           }
+         
 
           console.log('here');
         
           var obj={
-            'fname':fname,'lname':lname ,'pwd':pwd,'gender':gender,'address':address,'uname':uname, 'todoList':todoList
-          }
+            'fname':fname,
+            'lname':lname,
+            'pwd':pwd,'gender':gender,
+            'address':address,
+            'uname':uname,
+           'todoList':todoList
+          
+        }
 
         
          
@@ -155,10 +162,13 @@ function validation(){
     document.getElementById("f_name").disabled=false; 
     document.getElementById("l_name").disabled=false; 
     document.getElementById("add_ress").disabled=false; 
-    document.getElementById("gender").disabled=false; 
 
-    
-  }
+
+    for(let i=0;i<(document.getElementsByName("gender").length);i++)
+    {
+        document.getElementsByName("gender")[i].disabled = false;
+    }
+}
 
 
   // Editing the Profile of the user
@@ -177,24 +187,49 @@ function validation(){
             console.log(index);
             var itr = index;
             console.log('index', itr);
-                
-
         }
 
         document.getElementById("f_name").disabled = true;
         document.getElementById("l_name").disabled = true;
         document.getElementById("add_ress").disabled = true;
-        document.getElementsByClassName("gender").disabled = true;
+        document.querySelector('input[name="gender"]:checked').value = true;
 
-}
+      }
         console.log('index', itr);
   
         parsedUser[itr].fname = f_name;
         parsedUser[itr].lname = l_name;
         parsedUser[itr].address = add_ress;
+        parsedUser[itr].gender = gender;
         parsedUser = JSON.stringify(parsedUser);
         localStorage.setItem('users',parsedUser);
-        }
+}
+
+function changeProfilePicture(){
+          var Image =document.getElementById("profilepic").files[0];
+
+          console.log('in changeProfilePicture');
+          getimgbase64(Image);
+          function getimgbase64(Image){
+          var reader = new FileReader();
+          reader.readAsDataURL(Image);
+          
+          reader.onload = function () {
+          console.log('in onload');
+          var imgdata = reader.result;
+          
+          document.getElementById("profilepicture").src=imgdata;
+          sessionStorage.setItem("myprofilepicture",imgdata);
+          document.getElementById("profilepicture").src = imgdata;
+          
+          };
+          
+          reader.onerror = function (error) {
+          };
+          
+          
+    }
+}
 
 // Logout
     function logout(){
@@ -240,6 +275,7 @@ function getIndex(){
   }
   return userid;
 }
+
   function mainData(){
     var userRecordArray = JSON.parse(localStorage.getItem("users"));
     var userid = sessionStorage.unamesecond;
@@ -342,7 +378,16 @@ function insertDefaultValues()
   document.getElementById("f_name").value=userRecordArray[userid].fname; 
   document.getElementById("l_name").value=userRecordArray[userid].lname; 
   document.getElementById("add_ress").value=userRecordArray[userid].address; 
-  document.getElementsByClassName("gender").value=userRecordArray[userid].gender;
+
+  if(userRecordArray[userid].gender == "male")
+{
+document.getElementsByName("gender")[0].checked = true;
+}
+else if(userRecordArray[userid].gender == "female")
+{
+document.getElementsByName("gender")[1].checked = true;
+}
+
     
 }   
 
@@ -454,56 +499,98 @@ function addtodo(){
  
 }
 
-//Search function 
 
-function search()                                                 
-{
-    var index = getIndex();
-    let categoryitems =document.getElementById("category").value;
-
-    let userRecordArray=JSON.parse(localStorage.getItem("users"));
-    let new_todoList=userRecordArray[index].todoList;
-
-    let categoryArray=[];
-    for(let i=0;i<new_todoList.length;i++)
-    {
-        if(categoryitems == new_todoList[i].categoryArray)
-        {
-            categoryArray.push(new_todoList[i]);
-        }   
-    }
-    displayNewArray(categoryArray);
-}
+function search(){
+  var userArray = mainData();
+  var filteredarray = new Array();
+  console.log("heee");
+    if(document.getElementById("categorylist").value ==="personal")
     
-function displayNewArray(arr)                                          //Display data in table
-{
-    if(arr.length === 0)
     {
-        let s=document.createElement("tr");
-        var node = document.createTextNode("no todos");
-        s.appendChild(node);
-        let data=document.getElementById("output");
-        data.appendChild(s);
-    }
-    else
-    {
-         let a=document.getElementById("bodytable");
-        let deleteChild=a.lastElementChild;
-        while(deleteChild)
-        {
-            a.removeChild(deleteChild);
-            deleteChild=a.lastElementChild;
-        }
- 
-        for(let i=0;i<arr.length;i++)
-        {
-            var tr=document.createElement("tr");
-            
-            rData="<tr><td><input type=checkbox name=delete id=checkDelete"+i+"></input></td><td>"+arr[i].todoDesc+"</td><td>"+arr[i].cat+"</td><td>"+arr[i].dDate+"</td><td>"+arr[i].rdate+"</td><td>"+arr[i].ispublic+"</td></tr>";
+      console.log("noooo");
+     filteredarray=userArray.filter(function(category1){
+    return(category1.category=== "personal");
+    })
 
-            tr.innerHTML=rData;
-            let data=document.getElementById("bodytable");
-            data.appendChild(tr);
-        }
-    }
+
+    let a=document.getElementById("bodytable");
+    let deleteChild=a.lastElementChild;
+      while(deleteChild)
+      {
+      a.removeChild(deleteChild);
+      deleteChild=a.lastElementChild;
+      } 
+
+for (var counter = 0; counter<filteredarray.length;counter++) 
+      {
+      var list=document.createElement("tr");
+      var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"+counter+"></input></td><td>"+filteredarray[counter].todoname + "</td><td>" +filteredarray[counter].category + "</td><td>"+ filteredarray[counter].duedate+"</td><td>" + filteredarray[counter].setremainder+"</td><td>" +filteredarray[counter].makeitpublic+"</td><td>" + filteredarray[counter].addtodo+"</td><td input type=button id=button-"+counter+" ></td></tr>";
+      list.innerHTML=row;
+      let tableHead=document.getElementById("bodytable");
+      tableHead.appendChild(list);
+
+      }
 }
+
+else if(document.getElementById("categorylist").value ==="office"){
+  console.log("noooo");
+  filteredarray=userArray.filter(function(category1){
+ return(category1.category=== "office");
+ })
+
+
+ let a=document.getElementById("bodytable");
+ let deleteChild=a.lastElementChild;
+   while(deleteChild)
+   {
+   a.removeChild(deleteChild);
+   deleteChild=a.lastElementChild;
+   } 
+
+for (var counter = 0; counter<filteredarray.length;counter++) 
+   {
+   var list=document.createElement("tr");
+   var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"+counter+"></input></td><td>"+filteredarray[counter].todoname + "</td><td>" +filteredarray[counter].category + "</td><td>"+ filteredarray[counter].duedate+"</td><td>" + filteredarray[counter].setremainder+"</td><td>" +filteredarray[counter].makeitpublic+"</td><td>" + filteredarray[counter].addtodo+"</td><td input type=button id=button-"+counter+" ></td></tr>";
+   list.innerHTML=row;
+   let tableHead=document.getElementById("bodytable");
+   tableHead.appendChild(list);
+
+   }
+}
+
+else if(document.getElementById("categorylist").value ==="home"){
+  console.log("noooo");
+  filteredarray=userArray.filter(function(category1){
+ return(category1.category=== "home");
+ })
+
+
+ let a=document.getElementById("bodytable");
+ let deleteChild=a.lastElementChild;
+   while(deleteChild)
+   {
+   a.removeChild(deleteChild);
+   deleteChild=a.lastElementChild;
+   } 
+
+for (var counter = 0; counter<filteredarray.length;counter++) 
+   {
+   var list=document.createElement("tr");
+   var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"+counter+"></input></td><td>"+filteredarray[counter].todoname + "</td><td>" +filteredarray[counter].category + "</td><td>"+ filteredarray[counter].duedate+"</td><td>" + filteredarray[counter].setremainder+"</td><td>" +filteredarray[counter].makeitpublic+"</td><td>" + filteredarray[counter].addtodo+"</td><td input type=button id=button-"+counter+" ></td></tr>";
+   list.innerHTML=row;
+   let tableHead=document.getElementById("bodytable");
+   tableHead.appendChild(list);
+
+   }
+}
+}
+
+
+function searchDate(){
+  console.log("hey");
+  if(document.getElementById(dateid).value=== "duedate"){
+  var dt = new date();
+ 
+  }
+} 
+

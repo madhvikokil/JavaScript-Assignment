@@ -12,21 +12,32 @@
             <h1>To Do List</h1><br> 
 
       <div class="input-box">
-          <input type="submit" value="Add" placeholder="Add" onclick="addElement()">
           <input type="submit" value="Delete" placeholder="Delete" onclick="deleteElement()" >
           <input type="submit" value="Edit" placeholder="Add" onclick="editElement();">
           <input type="submit" value="Save changes" placeholder="Add" onclick="saveElement();">
          
         </div>
         <div class="filter">
-            <input type="text" placeholder="Search" name="search" id="searchid" value=""  >
-            <button type="button" name="submit" onclick="search()">Search</button>
-            <select id="searchfilter">
-              <!--  <option value="set remainder" id="remainder">Set remainder</option>
-                <option value="due date" id="duedate">Due Date</option> -->
-                <option value="" id="office">Office</option>
-                <option value="" id="Personal">Personal</option>
+
+           <!-- <button type="button" name="submit" onclick="search()">Search</button> -->
+
+
+            <select id="categorylist" onchange="search()">
+              <option >By Category</option>
+                <option value="home">Home</option>
+                <option value="office" >Office</option>
+                <option value="personal">personal</option>
             </select>
+            
+            <select id="duedatelist" onchange="searchDate()">
+              <option>Date Wise</option>
+              <option value="due">DueDate</option>
+              <option value="set">Set Remainder</option>
+              <input type="date" placeholder="Due" name ="due" value="" id="dateid">
+              
+            </select>
+
+
             
         </div><br><br><hr>
       </div>
@@ -38,8 +49,8 @@
             Categories
           <select id="category">
               <option value="office" >Office</option>
-              <option value="Personal">Personal</option>
-              <option value="Home">Home</option>
+              <option value="personal">personal</option>
+              <option value="home">home</option>
           </select>
             Due Date : <input type="date" placeholder="Enter Lastname" name="l_name" id="duedate" value="" >
             Set Remainder : <input type="date" placeholder="Set Remainder" name="l_name" id="setremainder" value="" >
