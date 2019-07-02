@@ -60,6 +60,7 @@ function register() {
             'address':address,
             'uname':uname,
            'todoList':todoList
+	    
           
         }
 
@@ -177,6 +178,7 @@ function validation(){
     var f_name = document.getElementById("f_name").value;
     var l_name = document.getElementById("l_name").value;
     var add_ress = document.getElementById("add_ress").value;
+    var gen_der = document.querySelector('input[name="gender"]:checked').value; 
     users = localStorage.getItem('users');
     var parsedUser = JSON.parse(users);
     console.log("array: ", parsedUser);
@@ -192,15 +194,21 @@ function validation(){
         document.getElementById("f_name").disabled = true;
         document.getElementById("l_name").disabled = true;
         document.getElementById("add_ress").disabled = true;
-        document.querySelector('input[name="gender"]:checked').value = true;
 
+        for(let i=0;i<(document.getElementsByName("gender").length);i++)
+        {
+            document.getElementsByName("gender")[i].disabled = true;
+        }
       }
+
+	
         console.log('index', itr);
   
         parsedUser[itr].fname = f_name;
         parsedUser[itr].lname = l_name;
         parsedUser[itr].address = add_ress;
-        parsedUser[itr].gender = gender;
+	parsedUser[itr].gender = gen_der;
+        
         parsedUser = JSON.stringify(parsedUser);
         localStorage.setItem('users',parsedUser);
 }
