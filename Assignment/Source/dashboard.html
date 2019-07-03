@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-          <link rel="stylesheet" href="stylesheet2.css">
+  <head>
+        <link rel="stylesheet" href="stylesheet2.css">
         <script src ="script.js"></script>
+        <script src="dashboard.js"></script>
+
   </head>
           <body onload="loadData();">
             <div class="edit-profile" onclick="profile_edit()">EDIT PROFILE</div>
@@ -23,52 +25,51 @@
 
 
             <select id="categorylist" onchange="search()">
-              <option >By Category</option>
+              <option >Filter By</option>
                 <option value="home">Home</option>
                 <option value="office" >Office</option>
                 <option value="personal">personal</option>
+                <option value="done">done</option>
+                <option value="pending">pending</option>
             </select>
             
-            <select id="duedatelist" onchange="searchDate()">
-              <option>Date Wise</option>
-              <option value="due">DueDate</option>
-              <option value="set">Set Remainder</option>
-              <input type="date" placeholder="Due" name ="due" value="" id="dateid">
-              
-            </select>
-
-
             
-        </div><br><br><hr>
+              <input type="date" placeholder="Due" name ="due" value="" id="startdate">
+              <input type="date" placefolder="set" name="set" value="" id="enddate">
+             <input type="submit" placeholder="date" name="date" value="submit" id="comparedate" onclick="filterByDate()">
+               
+        
+      </div><br><br><hr>
       </div>
       
  <div class="add-container" >
 
                  
-            To Do Name: <input type="text" placeholder="toDo name" name="l_name" id="todoname" value="">
-            Categories
-          <select id="category">
-              <option value="office" >Office</option>
-              <option value="personal">personal</option>
-              <option value="home">home</option>
-          </select>
+      To Do Name: <input type="text" placeholder="toDo name" name="l_name" id="todoname" value="">
+      Categories
+      <select id="category">
+          <option value="office" >Office</option>
+          <option value="personal">personal</option>
+          <option value="home">home</option>
+      </select>
+
             Due Date : <input type="date" placeholder="Enter Lastname" name="l_name" id="duedate" value="" >
             Set Remainder : <input type="date" placeholder="Set Remainder" name="l_name" id="setremainder" value="" >
             Add todo note : <input type="text" placeholder="Add ToDo Note" name="l_name" id="addtodonote" value="" ><br><br>
-            <input type="checkbox" name="ispublic" id="makeitpublic" value="yes"> isPublic<br><br>
+            is Done : <input type="checkbox" name="is_done" id="isdone" value="" >
             <button type="button" value="submit" onclick="addtodo()"> Add todo</button><br><br>
 
             <table width=100% id="tableid">
               <thead>
-              <tr>
-                <th>Delete</th>
-                <th>Todo Name</th>
-                <th>Category</th>
-                <th> Due Date</th>
-                <th> Set Remainder</th>
-                <th> Add Todo Not</th>
-                <th> is Public</th>
-              </tr>
+                <tr>
+                  <th>Delete</th>
+                  <th>Todo Name</th>
+                  <th>Category</th>
+                  <th> Due Date</th>
+                  <th> Set Remainder</th>
+                  <th> Add Todo Note</th>
+                  <th> is Done</th>
+                </tr>
               </thead>
               <tbody id="bodytable">
                 </tbody>
@@ -76,6 +77,6 @@
             </table>
 
            
-           </div>
-        </body>
+  </div>
+  </body>
 </html>

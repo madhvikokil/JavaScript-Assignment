@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <h1> TODo App</h1><div class="logout-profile" onclick="dashboard()">DASHBOARD</div>
+        <div class="logout-profile" onclick="logout()">LOGOUT</div>
+        <img src="../Assets/todo.png" alt="Avatar" class="todo-image"><br><br>
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="stylesheet2.css">
+        <link rel="stylesheet" href="stylesheet.css">
+
+        <script src="script.js"></script> 
+        <script src="profile.js"></script>
+
+    </head>
+       
+
+    <body onload="insertDefaultValues();">
+               
+        <div class="profile-container">
+        <form name = "profile" method="post">
+
+            <h2> PROFILE PAGE</h2> 
+            
+            <img src="../Assets/todo2.jpg" id="profilepicture" placeholder="Profile Photo" height="80px" width="80px" />
+            <input type="file" placeholder="set photo" id="profilepic" onchange="changeProfilePicture()" disabled><br><br>
+
+            Firstname : <input type="text" placeholder="Enter name" name="f_name" id="f_name" value=""  disabled><br><br>
+            Lastname : <input type="text" placeholder="Enter Lastname" name="l_name" id="l_name" value="" disabled><br><br>
+
+            <h4> Gender :</h4>
+            <input type="radio" name="gender" value="male" disabled> Male 
+            <input type="radio" name="gender" value="female" disabled> Female<br><br>
+
+            Address : <input type="text" placeholder="Enter address" name="add_ress" id="add_ress" value="" disabled><br><br>
+                
+            <input type="button" value="Edit" onclick="enableFields()">
+            <input type="button" value="Save" onclick="profileChanges()">
+        </form>
+        </div>
+    </body>
+</html>
