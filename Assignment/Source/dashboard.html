@@ -45,18 +45,19 @@
  <div class="add-container" >
 
                  
-      To Do Name: <input type="text" placeholder="toDo name" name="l_name" id="todoname" value="">
+      To Do Name: <input type="text" placeholder="toDo name" name="l_name" id="todoname" value=""><br><br>
       Categories
       <select id="category">
           <option value="office" >Office</option>
           <option value="personal">personal</option>
           <option value="home">home</option>
-      </select>
+      </select><br><br>
 
             Due Date : <input type="date" placeholder="Enter Lastname" name="l_name" id="duedate" value="" >
-            Set Remainder : <input type="date" placeholder="Set Remainder" name="l_name" id="setremainder" value="" >
+            Set Remainder : <input type="date" placeholder="Set Remainder" name="l_name" id="setremainder" value="" ><br><br>
             Add todo note : <input type="text" placeholder="Add ToDo Note" name="l_name" id="addtodonote" value="" ><br><br>
             is Done : <input type="checkbox" name="is_done" id="isdone" value="" >
+            is Public : <input type="checkbox" name="is_public" id="ispublic" value="" >
             <button type="button" value="submit" onclick="addtodo()"> Add todo</button><br><br>
 
             <table width=100% id="tableid">
@@ -69,6 +70,7 @@
                   <th> Set Remainder</th>
                   <th> Add Todo Note</th>
                   <th> is Done</th>
+                  <th> is Public</th>
                 </tr>
               </thead>
               <tbody id="bodytable">

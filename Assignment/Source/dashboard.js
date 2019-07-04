@@ -5,6 +5,7 @@ function loadData(){
     var setremainder = document.getElementById("setremainder").value;
     var addtodonote = document.getElementById("addtodonote").value;
     var isdone = document.getElementById("isdone").value;
+    var ispublic = document.getElementById("ispublic").value;
 
 
     var unamesecond = sessionStorage.unamesecond;
@@ -25,7 +26,7 @@ function loadData(){
         var node = document.createTextNode("no todos");
         s.appendChild(node);
         let data=document.getElementById("output");
-        data.appendChild(s);
+        //data.appendChild(s);
     }
     else
     {
@@ -33,6 +34,7 @@ function loadData(){
     {
     
       var li=document.createElement("tr");
+      
         
           var s = "<tr><td><input type=checkbox name=deleteclass></td>"+
                       "<td>"+get_inner_array[i].todoname+"</td>"+
@@ -40,8 +42,10 @@ function loadData(){
                     "<td>"+get_inner_array[i].duedate+"</td>"+
                     "<td>"+get_inner_array[i].setremainder+"</td>"+
                     "<td>"+get_inner_array[i].addtodonote+"</td>"+
-                    "<td>"+get_inner_array[i].isdone+"</td></tr>"
+                    "<td>"+get_inner_array[i].isdone+"</td>"+
+                    "<td>"+get_inner_array[i].ispublic+"</td></tr>"
                       li.innerHTML=s;
+                      console.log(ispublic);
 
         document.getElementById("bodytable").appendChild(li);
 
@@ -143,8 +147,9 @@ function search(){
         + filteringthearray[counter].category + "</td><td>"
         + filteringthearray[counter].duedate+"</td><td>" 
         + filteringthearray[counter].setremainder+"</td><td>" 
-        + filteringthearray[counter].addtodonote
-        +"</td><td>"+filteringthearray[counter].isdone+"</td></tr>";
+        + filteringthearray[counter].addtodonote+"</td><td>"
+        +filteringthearray[counter].isdone+"</td><td>"
+        +filteringthearray[counter].ispublic+"</td></tr>"
 
         list.innerHTML=row;
         let tableHead=document.getElementById("bodytable");
@@ -173,10 +178,12 @@ function search(){
       var list=document.createElement("tr");
       var row= "<tr id=row-"
       + counter+"><td><input type=checkbox name=deleteTodo id=ch-"+counter+"></input></td><td>"
-      + filteringthearray[counter].todoname + "</td><td>" +filteringthearray[counter].category + "</td><td>"
-      + filteringthearray[counter].duedate+"</td><td>" + filteringthearray[counter].setremainder+"</td><td>"
-      + filteringthearray[counter].addtodonote
-      + "</td><td>"+filteringthearray[counter].isdone+"</td></tr>";
+      + filteringthearray[counter].todoname + "</td><td>" 
+      + filteringthearray[counter].category + "</td><td>"
+      + filteringthearray[counter].duedate+"</td><td>" 
+      + filteringthearray[counter].setremainder+"</td><td>"
+      + filteringthearray[counter].addtodonote+"</td><td>"
+      + filteringthearray[counter].isdone+"</td></tr>";
 
       list.innerHTML=row;
       let tableHead=document.getElementById("bodytable");
@@ -208,8 +215,9 @@ function search(){
       + filteringthearray[counter].category + "</td><td>"
       + filteringthearray[counter].duedate+"</td><td>" 
       + filteringthearray[counter].setremainder+"</td><td>"
-      + filteringthearray[counter].addtodonote
-      +"</td><td>"+filteringthearray[counter].isdone+"</td></tr>";
+      + filteringthearray[counter].addtodonote+"</td><td>"
+      +filteringthearray[counter].isdone+"</td><td>"
+      +filteringthearray[counter].ispublic+"</td></tr>"
 
       list.innerHTML=row;
       let tableHead=document.getElementById("bodytable");
@@ -239,8 +247,9 @@ function search(){
         + filteringthearray[counter].category + "</td><td>"
         + filteringthearray[counter].duedate+"</td><td>" 
         + filteringthearray[counter].setremainder+"</td><td>" 
-        + filteringthearray[counter].addtodonote
-        + "</td><td>"+filteringthearray[counter].isdone+"</td></tr>";
+        + filteringthearray[counter].addtodonote+"</td><td>"
+        + filteringthearray[counter].isdone+"</td><td>"
+        +filteringthearray[counter].ispublic+"</td></tr>"
 
         list.innerHTML=row;
         let tableHead=document.getElementById("bodytable");
@@ -272,8 +281,9 @@ function search(){
         + filteringthearray[counter].category + "</td><td>"
         + filteringthearray[counter].duedate+"</td><td>" 
         + filteringthearray[counter].setremainder+"</td><td>"
-        + filteringthearray[counter].addtodonote
-        + "</td><td>"+filteringthearray[counter].isdone+"</td></tr>";
+        + filteringthearray[counter].addtodonote+"</td><td>"
+        + filteringthearray[counter].isdone+"</td><td>"
+        + filteringthearray[counter].ispublic+"</td></tr>"
 
         list.innerHTML=row;
         let tableHead=document.getElementById("bodytable");
@@ -337,17 +347,19 @@ function filterByDate(){
     var setremainder = document.getElementById("setremainder").value;
     var addtodonote = document.getElementById("addtodonote").value;
     var isdone = document.getElementById("isdone").checked ? 'done' : 'pending';
+    var ispublic = document.getElementById("ispublic").checked ? 'yes' : 'no';
     
 
     var todoobj={
       'todoname':todoname,'category':category ,'duedate':duedate,
-      'setremainder':setremainder,'addtodonote':addtodonote, 'isdone':isdone
+      'setremainder':setremainder,'addtodonote':addtodonote, 'isdone':isdone,
+      'public':ispublic
     }
 
     var unamesecond = sessionStorage.unamesecond;
     var userRecordArray=JSON.parse(localStorage.getItem("users"));
 
-    for( var index=0;index<userRecordArray;index++){
+    for( var index=0;index<userRecordArray.length;index++){
       if(userRecordArray[index].uname === sessionStorage.unamesecond){
         console.log(index);
         var itr = index;
@@ -355,27 +367,25 @@ function filterByDate(){
       }
     }
 
-    if(isdone.checked === true){
-        
-
-    }
 
     var storage = userRecordArray[index].todoList;
     for(var i=0;i<storage.length;i++){
       
-      var tr = "<td><tr>"+storage[i].todoname+"</td>"+
+      var tr = "<tr><td>"+storage[i].todoname+"</td>"+
       "<td>"+storage[i].category+"</td>"+
       "<td>"+storage[i].duedate+"</td>"+
       "<td>"+storage[i].setremainder+"</td>"+
       "<td>"+storage[i].addtodonote+"</td>"+
-      "<td>"+storage[i].isdone+"</td></tr>"
+      "<td>"+storage[i].isdone+"</td>"+
+      "<td>"+storage[i].ispublic+"</td></tr>"
 
 
     }
-    window.location.reload();
+   window.location.reload();
     var tr = document.createElement("tr");
     var t = document.createTextNode(todoobj);
     tr.append(t);
+   
 
 
     for(var i=0;i<userRecordArray.length;i++){

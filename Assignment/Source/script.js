@@ -83,7 +83,7 @@ function register() {
           var passwordResult = pwd.match(passwordRegex);
 
           if(!passwordResult){
-            alert("username should contains one lowercase ,uppercase, special symbol and number");
+            alert("Password should contains one lowercase ,uppercase, special symbol and number");
             document.signup.pwd.style.border="2px solid red";
             return false;
           }
