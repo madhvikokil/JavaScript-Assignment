@@ -14,9 +14,11 @@
             <h1>To Do List</h1><br> 
 
       <div class="input-box">
-          <input type="submit" value="Delete" placeholder="Delete" onclick="deleteElement()" >
-          <input type="submit" value="Edit" placeholder="Add" onclick="editElement();">
-          <input type="submit" value="Save changes" placeholder="Add" onclick="saveElement();">
+          <input type="submit" value="Delete" placeholder="Delete" id="deletechanges"onclick="deleteElement()" >
+          <!--<input type="submit" value="Edit" placeholder="Add" id="editchanges"onclick="editElement();">-->
+          
+          <input type="text" placeholder="Search by name" name="search_name" id="search_name" value="">
+          <input type="button" value="Search" placeholder=Search id="searchByName" onclick="searchByName()" >
          
         </div>
         <div class="filter">
@@ -33,9 +35,10 @@
                 <option value="pending">pending</option>
             </select>
             
-            
+           
               <input type="date" placeholder="Due" name ="due" value="" id="startdate">
               <input type="date" placefolder="set" name="set" value="" id="enddate">
+              
              <input type="submit" placeholder="date" name="date" value="submit" id="comparedate" onclick="filterByDate()">
                
         
@@ -44,7 +47,7 @@
       
  <div class="add-container" >
 
-                 
+                <p> Add To Do</p><br>
       To Do Name: <input type="text" placeholder="toDo name" name="l_name" id="todoname" value=""><br><br>
       Categories
       <select id="category">
@@ -56,9 +59,16 @@
             Due Date : <input type="date" placeholder="Enter Lastname" name="l_name" id="duedate" value="" >
             Set Remainder : <input type="date" placeholder="Set Remainder" name="l_name" id="setremainder" value="" ><br><br>
             Add todo note : <input type="text" placeholder="Add ToDo Note" name="l_name" id="addtodonote" value="" ><br><br>
-            is Done : <input type="checkbox" name="is_done" id="isdone" value="" >
-            is Public : <input type="checkbox" name="is_public" id="ispublic" value="" >
-            <button type="button" value="submit" onclick="addtodo()"> Add todo</button><br><br>
+      
+            is Public 
+            <input type="radio" name="ispublic" value="yes" checked>yes
+            <input type="radio" name="ispublic" value="no"> no<br><br>
+
+            <button type="button" value="submit" id="addchanges" onclick="addtodo()"> Add todo</button>
+            <button type="button" value="submit" id="markchanges" onclick="markAsDone()"> Mark done</button>
+            <input type="button" value="Savechanges" placeholder="Add" id="savechanges" onclick="saveElement();">
+
+          </div>
 
             <table width=100% id="tableid">
               <thead>
@@ -79,6 +89,6 @@
             </table>
 
            
-  </div>
+  
   </body>
 </html>

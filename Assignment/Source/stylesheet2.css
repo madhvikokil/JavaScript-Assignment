@@ -144,3 +144,15 @@ th{
 .filter{
   float: right;
 }
+
+.add-container{
+  width:100%;
+  height:320px;
+  background-color: white;
+}
+
+p{
+  text-align:center;
+  font-family:QUICKSAND;
+  font-weight:bold;
+}

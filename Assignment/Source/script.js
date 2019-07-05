@@ -5,18 +5,20 @@ function register() {
         var address = document.signup.address.value;
         var pwd = document.signup.pwd.value;
         var uname = document.signup.uname.value;
+        var pwd2 = document.signup.pwd2.value;
         var gender = document.querySelector('input[name="gender"]:checked').value; 
         var todoList = new Array();
         var imageone = sessionStorage.getItem("profileSessionKey");
             
 
-            if(fname=="" ||lname =="" ||address=="" ||uname==""||pwd=="" || gender==""){
+            if(fname=="" ||lname =="" ||address=="" ||uname==""||pwd=="" || gender=="" ){
               alert("Fields should not be blank");
               document.signup.fname.style.border="2px solid red";
               document.signup.lname.style.border="2px solid red";
               document.signup.uname.style.border="2px solid red";
               document.signup.address.style.border="2px solid red";
               document.signup.pwd.style.border="2px solid red";
+              document.signup.pwd2.style.border="2px solid red";
               return false;
           }
           var firstnameRegex = '^[a-zA-Z]+$';
@@ -88,10 +90,23 @@ function register() {
             return false;
           }
 
-          else{
+          else {
+              
+              
             document.signup.pwd.style.border="2px solid green";
             
           }
+
+    
+        if(pwd == pwd2){
+         document.signup.pwd2.style.border="2px solid green";
+            
+        }
+
+       else{
+          alert("Password is not matching");
+            return false;
+         }
 
        
 
@@ -100,7 +115,9 @@ function register() {
           var obj={
             'fname':fname,
             'lname':lname,
-            'pwd':pwd,'gender':gender,
+            'pwd':pwd,
+            'gender':gender,
+            'pwd2':pwd2,
             'address':address,
             'uname':uname,
            'todoList':todoList,
