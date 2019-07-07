@@ -456,19 +456,40 @@ function filterByDate(){
     
   }
   
+  function currentDate() {
+    var today = new Date();
+
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    return today;
+}
 
   function addtodo(){
 
     var todoname = document.getElementById("todoname").value;
     var category = document.getElementById("category").value;
-    var duedate = document.getElementById("duedate").value;
+    var duedate = currentDate();
     //document.getElementById('input').setAttribute("min", '2013-12-9');
+    //var setremainder = document.getElementById("setremainder").value;
     var setremainder = document.getElementById("setremainder").value;
     var addtodonote = document.getElementById("addtodonote").value;
    // var isdone = document.getElementById("isdone").checked ? 'done' : 'pending';
     var ispublic = document.querySelector('input[name="ispublic"]:checked').value; 
 
     document.getElementById("savechanges").style.display="none";
+
+    
     
     if(todoname=="" || addtodonote=="" ||duedate=="" || setremainder==""){
       alert("Fill the fields");
@@ -493,7 +514,7 @@ function filterByDate(){
       }
     }
 
-
+   
     var storage = userRecordArray[itr].todoList;
     for(var i=0;i<storage.length;i++){
       
@@ -515,7 +536,7 @@ function filterByDate(){
 
 
     for(var i=0;i<userRecordArray.length;i++){
-      if(unamesecond==userRecordArray[i].uname)   // email id found then break
+      if(unamesecond==userRecordArray[i].uname)   
       {
 
         userRecordArray[i].todoList.push(todoobj);
