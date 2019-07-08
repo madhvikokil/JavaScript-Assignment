@@ -107,10 +107,6 @@ function register() {
           alert("Password is not matching");
             return false;
          }
-
-       
-
-          console.log('here');
         
           var obj={
             'fname':fname,
@@ -125,117 +121,104 @@ function register() {
           
         }
 
-        
-         
-          var myJSON = JSON.stringify(obj);
+         var myJSON = JSON.stringify(obj);
           
          if(localStorage.getItem('users')){
 
           let users = localStorage.getItem('users');
           var parsedArray = JSON.parse(users);
            
-          
-          
-                    const username = parsedArray.find(function(user)
-                    {
+           const username = parsedArray.find(function(user) {
 
-                      if(user.uname === uname)
-                      {
-                      return true;}
-                    });
+            if(user.uname === uname) {
+               return true;}
+              });
 
-                    if (username) 
-                    {
-                      alert('user is already present');
-                    } 
+            if (username) {
+               alert('user is already present');
+            } 
                     
-                    else 
-                    {
-                    parsedArray.push(obj);
-                    var parsedJSON = JSON.stringify(parsedArray);
-                    localStorage.setItem('users' ,parsedJSON);
-                    window.open("login.html","_self");
-                    }
-       }
+            else {
+              parsedArray.push(obj);
+              var parsedJSON = JSON.stringify(parsedArray);
+              localStorage.setItem('users' ,parsedJSON);
+              window.open("login.html","_self");
+              }
+        }
        
-        else
-         {
+        else {
           var users = new Array();
           users.push(obj);
           var myJSON = JSON.stringify(users);
            localStorage.setItem('users' ,myJSON);
            window.open("login.html","_self");
         }
-         
 }
 
 
 function login(){ 
    window.open("login.html","_self");
-  }
+}
 
-  function profile_edit(){
+function profile_edit(){
     window.open("profile.html","_self");
-  }
+}
 
-  function logout(){
+function logout(){
     sessionStorage.clear();
      window.open("login.html","_self") ; 
-  }
+}
 
 
-function changeProfilePicture()
-      {
-      let image = document.getElementById("profilepic").files[0];
+function changeProfilePicture() {
+    let image = document.getElementById("profilepic").files[0];
 
-      getimgbase64(image);
+    getimgbase64(image);
 
-        function getimgbase64(image)
-        {
-        let readImg = new FileReader();
-        readImg.readAsDataURL(image)
+    function getimgbase64(image){
+      let readImg = new FileReader();
+      readImg.readAsDataURL(image)
 
-        readImg.onload = function () {
-        let profileUrl = readImg.result;
-        sessionStorage.setItem("profileSessionKey",profileUrl);
-        document.getElementById("profilepicture").src = sessionStorage.profileSessionKey;
-        };
+      readImg.onload = function () {
+      let profileUrl = readImg.result;
+      sessionStorage.setItem("profileSessionKey",profileUrl);
+      document.getElementById("profilepicture").src = sessionStorage.profileSessionKey;
+      };
 
-        readImg.onerror = function (error) {
-        };
-        }
+      readImg.onerror = function (error) {
+      };
+    }
 }
 
 // Logout
-    function logout(){
-      sessionStorage.clear();
-       window.open("login.html","_self") ; 
-    }
+function logout(){
+  sessionStorage.clear();
+    window.open("login.html","_self") ; 
+}
     
 // Edit Profile
-    function profile_edit(){
-      window.open("profile.html","_self");
-    }
+function profile_edit(){
+  window.open("profile.html","_self");
+}
  
 // Add element in the todo List
 function addElement(){
-  
   
   var unamesecond = sessionStorage.unamesecond;
   var users = JSON.parse(localStorage.getItem("users"));
 
     //search for existing email id
-    for(let index=0;index<users.length;index++)
-    {
-        if(unamesecond==users[index].uname)   // email id found then break
-        {
+    for(let index=0;index<users.length;index++) {
+        if(unamesecond==users[index].uname){  // email id found then break
             users[index].todoList.push(todoText);
             todo_add_data=JSON.stringify(users);
             localStorage.setItem("users",todo_add_data);
          }
-    }
+      }
   }
+
 function getIndex(){
+
       var userRecordArray = JSON.parse(localStorage.getItem("users"));
       var userid = sessionStorage.unamesecond;
 
@@ -246,21 +229,19 @@ function getIndex(){
         }
       }
       return userid;
-    }
+}
 
-      function mainData(){
-        var userRecordArray = JSON.parse(localStorage.getItem("users"));
-        var userid = sessionStorage.unamesecond;
+function mainData(){
+      var userRecordArray = JSON.parse(localStorage.getItem("users"));
+      var userid = sessionStorage.unamesecond;
       
 
-        for( var index=0;index<userRecordArray.length;index++){
-          if(userRecordArray[index].uname === userid){
-          var userid=index;
-            
+      for( var index=0;index<userRecordArray.length;index++){
+        if(userRecordArray[index].uname === userid){
+        var userid=index;
           }
         }
         let get_inner_array=userRecordArray[userid].todoList;
-      
         return get_inner_array;
 }
 

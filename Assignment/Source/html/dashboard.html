@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-        <link rel="stylesheet" href="stylesheet2.css">
-        <script src ="script.js"></script>
-        <script src="dashboard.js"></script>
+        <link rel="stylesheet" href="../css/stylesheet2.css">
+        <script src ="../js/script.js"></script>
+        <script src="../js/dashboard.js"></script>
+</head>
 
-  </head>
-          <body onload="loadData();">
+      <body onload="loadData();">
             <div class="edit-profile" onclick="profile_edit()">EDIT PROFILE</div>
             <div class="logout" onclick="logout()">LOGOUT</div>
 
@@ -37,7 +37,7 @@
             </select>
             
            
-              <input type="date" placeholder="Due" name ="due" value="" id="startdate">
+              <input type="date" placeholder="Due" name ="due" value="" id="startdate" >
               <input type="date" placefolder="set" name="set" value="" id="enddate">
               
              <input type="submit" placeholder="date" name="date" value="submit" id="comparedate" onclick="filterByDate()">

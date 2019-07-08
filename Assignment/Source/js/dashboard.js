@@ -6,9 +6,11 @@ function loadData(){
     var addtodonote = document.getElementById("addtodonote").value;
     var ispublic = document.querySelector('input[name="ispublic"]:checked').value; 
     
-
+    if(sessionStorage.unamesecond == null){
+      window.location.href="login.html";
+    }
+  
     document.getElementById("savechanges").style.display="none";
-
 
     var unamesecond = sessionStorage.unamesecond;
     var userRecordArray=JSON.parse(localStorage.getItem("users"));
@@ -20,20 +22,16 @@ function loadData(){
       }
     }
 
-
-    let get_inner_array=userRecordArray[userid].todoList;
-    if(get_inner_array.length === 0)
-    {
+   let get_inner_array=userRecordArray[userid].todoList;
+    if(get_inner_array.length === 0) {
         let s=document.createElement("tr");
         var node = document.createTextNode("no todos");
         s.appendChild(node);
         let data=document.getElementById("output");
         //data.appendChild(s);
     }
-    else
-    {
-    for(let i=0;i<get_inner_array.length;i++)
-    {
+    else {
+    for(let i=0;i<get_inner_array.length;i++) {
     
       var li=document.createElement("tr");
       
@@ -83,19 +81,17 @@ function editElement(itr){
 
     var index = getIndex();
 
-    if(userRecordArray[index].todoList[itr].ispublic == "yes")
-    {
+  
+
+    if(userRecordArray[index].todoList[itr].ispublic == "yes") {
     document.getElementsByName("ispublic")[0].checked = true;
     }
-    else if(userRecordArray[index].todoList[itr].ispublic == "no")
-    {
+    else if(userRecordArray[index].todoList[itr].ispublic == "no") {
     document.getElementsByName("ispublic")[1].checked = true;
     }
 
-
-    for(count = 0;count<userRecordArray[index].todoList.length;count++){
-    
-    
+   for(count = 0;count<userRecordArray[index].todoList.length;count++) {
+   
     document.getElementById("todoname").value = userRecordArray[index].todoList[itr].todoname;
     document.getElementById("category").value = userRecordArray[index].todoList[itr].category;
     document.getElementById("sdate").value = userRecordArray[index].todoList[itr].sdate;
@@ -105,8 +101,7 @@ function editElement(itr){
     document.getElementById("savechanges").style.display="inline-block";
     document.getElementById("deletechanges").style.display="none"; 
     document.getElementById("addchanges").style.display="none";  
-
-   //saveElement();
+    
    localStorage.setItem("newindex",itr);
    return itr;
     }
@@ -114,7 +109,6 @@ function editElement(itr){
 
 function saveElement(){
 
-  //var itr = editElement();
   var todoname2 = document.getElementById("todoname").value;
   var category2 = document.getElementById("category").value;
   var sdate2 = document.getElementById("sdate").value;
@@ -124,11 +118,11 @@ function saveElement(){
   
   var userRecordArray = JSON.parse(localStorage.getItem("users"));
   var itr = JSON.parse(localStorage.getItem("newindex"));
-  //let indexloc=sessionStorage.index;
 
   var index = getIndex();
 
   for(var i=0;i<userRecordArray.length;i++){
+
   userRecordArray[index].todoList[itr].todoname = todoname2;
   userRecordArray[index].todoList[itr].category = category2;
   userRecordArray[index].todoList[itr].sdate = sdate2;
@@ -136,14 +130,29 @@ function saveElement(){
   userRecordArray[index].todoList[itr].ispublic = ispublic2;
   userRecordArray[index].todoList[itr].addtodonote = addtodonote2;
 
-  
 
-  if(userRecordArray[index].todoList[itr].ispublic == "yes")
-  {
+  if(todoname2=="" || addtodonote2=="" ||sdate2=="" || edate2==""){
+    alert("Fill the fields");
+    return false;
+  }
+  
+    if(sdate2 < currentDate()){
+    alert("Invalid start date");
+    return false;
+  }
+  
+ 
+
+  if(sdate2 >= edate2){
+    alert("Due Date should be greater than the start date");
+    return false;
+  }
+
+  if(userRecordArray[index].todoList[itr].ispublic == "yes") {
   document.getElementsByName("ispublic")[0].checked = true;
   }
-  else if(userRecordArray[index].todoList[itr].ispublic == "no")
-  {
+
+  else if(userRecordArray[index].todoList[itr].ispublic == "no") {
   document.getElementsByName("ispublic")[1].checked = true;
   }
 
@@ -161,24 +170,21 @@ function deleteElement(){
   var confirmDelete = confirm("Do you want to delete ?");
 
   if(confirmDelete == true){
-  for(var count=(userRecordArray[index].todoList.length-1);count>=0;count--)
-  {
-      if(arraydelete[count].checked === true)
-      { console.log(arraydelete);
-          userRecordArray[index].todoList.splice(count,1);
+  for(var count=(userRecordArray[index].todoList.length-1);count>=0;count--) {
+      if(arraydelete[count].checked === true){
+         
+         userRecordArray[index].todoList.splice(count,1);
           
       }
-       console.log(arraydelete);
-       
   }
 }
 
-else{
+  else{
   window.location.reload();
-}
+  }
+
   localStorage.setItem("users",JSON.stringify(userRecordArray));	
   window.location.reload();
-
 }
 
 function deleteDirectly(itr2){
@@ -187,7 +193,6 @@ function deleteDirectly(itr2){
   var arraydelete = document.getElementsByName("deleteclass");
   var index = getIndex();
 
-  
   var confirmDelete = confirm("Do you want to delete?");
   if(confirmDelete == true){
   for(var count=(userRecordArray[index].todoList.length-1);count>=0;count--)
@@ -208,9 +213,7 @@ function deleteDirectly(itr2){
   localStorage.setItem("users",JSON.stringify(userRecordArray));	
 
   window.location.reload();
-
 }
-
 
 function markAsDone(){
   var userRecordArray = JSON.parse(localStorage.getItem("users"));
@@ -218,44 +221,35 @@ function markAsDone(){
   var check_boxes = document.getElementsByName("deleteclass");
   var index = getIndex();
 
-  for(var count=(userRecordArray[index].todoList.length-1);count>=0;count--)
-  
-  
-  if (check_boxes[count].checked === true){
+  for(var count=(userRecordArray[index].todoList.length-1);count>=0;count--){
+   if (check_boxes[count].checked === true){
     userRecordArray[index].todoList[count].isdone = "done";
+   }
+  }
+ 
+  localStorage.setItem("users",JSON.stringify(userRecordArray));	
+  window.location.reload();
 }
-
-
-localStorage.setItem("users",JSON.stringify(userRecordArray));	
-window.location.reload();
-}
-
 
 function search(){
     var userArray = mainData();
     var filteringthearrayarray = new Array();
     console.log("heee");
 
-     
-      if(document.getElementById("categorylist").value ==="personal")
-      
-      {
+     if(document.getElementById("categorylist").value ==="personal") {
         console.log("noooo");
       filteringthearray=userArray.filter(function(category1){
       return(category1.category=== "personal");
       })
 
- 
       let a=document.getElementById("bodytable");
       let deleteChild=a.lastElementChild;
-        while(deleteChild)
-        {
+        while(deleteChild) {
         a.removeChild(deleteChild);
         deleteChild=a.lastElementChild;
         } 
 
-  for (var counter = 0; counter<filteringthearray.length;counter++) 
-        {
+      for (var counter = 0; counter<filteringthearray.length;counter++) {
         var list=document.createElement("tr");
         var row= "<tr id=row-"+counter+"><td></td><td>"
         + filteringthearray[counter].todoname + "</td><td>"
@@ -271,81 +265,14 @@ function search(){
         tableHead.appendChild(list);
 
         }
-  }
-
-  else if(document.getElementById("categorylist").value ==="office"){
-    console.log("noooo");
-    filteringthearray=userArray.filter(function(category1){
-  return(category1.category=== "office");
-  })
-
-
-  let a=document.getElementById("bodytable");
-  let deleteChild=a.lastElementChild;
-    while(deleteChild)
-    {
-    a.removeChild(deleteChild);
-    deleteChild=a.lastElementChild;
-    } 
-
-    for (var counter = 0; counter<filteringthearray.length;counter++) 
-      {
-      var list=document.createElement("tr");
-      var row= "<tr id=row-"
-      + counter+"><td></td><td>"
-      + filteringthearray[counter].todoname + "</td><td>" 
-      + filteringthearray[counter].category + "</td><td>"
-      + filteringthearray[counter].sdate+"</td><td>" 
-      + filteringthearray[counter].edate+"</td><td>"
-      + filteringthearray[counter].addtodonote+"</td><td>"
-      + filteringthearray[counter].isdone+"</td><td>"
-      + filteringthearray[counter].ispublic+"</td></tr>"
-
-      list.innerHTML=row;
-      let tableHead=document.getElementById("bodytable");
-      tableHead.appendChild(list);
-
       }
-    }
 
-    else if(document.getElementById("categorylist").value ==="home"){
-      console.log("noooo");
-      filteringthearray=userArray.filter(function(category1){
-    return(category1.category=== "home");
-    })
-
-
-    let a=document.getElementById("bodytable");
-    let deleteChild=a.lastElementChild;
-      while(deleteChild)
-      {
-      a.removeChild(deleteChild);
-      deleteChild=a.lastElementChild;
-      } 
-
-    for (var counter = 0; counter<filteringthearray.length;counter++) 
-      {
-      var list=document.createElement("tr");
-      var row= "<tr id=row-"+counter+"><td></td><td>" 
-      + filteringthearray[counter].todoname + "</td><td>" 
-      + filteringthearray[counter].category + "</td><td>"
-      + filteringthearray[counter].sdate+"</td><td>" 
-      + filteringthearray[counter].edate+"</td><td>"
-      + filteringthearray[counter].addtodonote+"</td><td>"
-      +filteringthearray[counter].isdone+"</td><td>"
-      +filteringthearray[counter].ispublic+"</td></tr>"
-
-      list.innerHTML=row;
-      let tableHead=document.getElementById("bodytable");
-      tableHead.appendChild(list);
-
-      }
-    }
-
-    else if(document.getElementById("categorylist").value === "done"){
-      filteringthearray=userArray.filter(function(category1){
-        return(category1.isdone === "done");
+      else if(document.getElementById("categorylist").value ==="office"){
+        console.log("noooo");
+        filteringthearray=userArray.filter(function(category1){
+      return(category1.category=== "office");
       })
+
 
       let a=document.getElementById("bodytable");
       let deleteChild=a.lastElementChild;
@@ -354,97 +281,159 @@ function search(){
         a.removeChild(deleteChild);
         deleteChild=a.lastElementChild;
         } 
-  
-      for (var counter = 0; counter<filteringthearray.length;counter++) 
-        {
-        var list=document.createElement("tr");
-        var row= "<tr id=row-"+counter+"><td></td><td>" 
-        + filteringthearray[counter].todoname + "</td><td>" 
-        + filteringthearray[counter].category + "</td><td>"
-        + filteringthearray[counter].sdate+"</td><td>" 
-        + filteringthearray[counter].edate+"</td><td>" 
-        + filteringthearray[counter].addtodonote+"</td><td>"
-        + filteringthearray[counter].isdone+"</td><td>"
-        +filteringthearray[counter].ispublic+"</td></tr>"
 
-        list.innerHTML=row;
-        let tableHead=document.getElementById("bodytable");
-        tableHead.appendChild(list);
-  
+        for (var counter = 0; counter<filteringthearray.length;counter++) 
+          {
+          var list=document.createElement("tr");
+          var row= "<tr id=row-"
+          + counter+"><td></td><td>"
+          + filteringthearray[counter].todoname + "</td><td>" 
+          + filteringthearray[counter].category + "</td><td>"
+          + filteringthearray[counter].sdate+"</td><td>" 
+          + filteringthearray[counter].edate+"</td><td>"
+          + filteringthearray[counter].addtodonote+"</td><td>"
+          + filteringthearray[counter].isdone+"</td><td>"
+          + filteringthearray[counter].ispublic+"</td></tr>"
+
+          list.innerHTML=row;
+          let tableHead=document.getElementById("bodytable");
+          tableHead.appendChild(list);
+
+          }
         }
-      
-    }
 
-    else if(document.getElementById("categorylist").value === "pending"){
-      filteringthearray=userArray.filter(function(category1){
-        return(category1.isdone === "pending");
-      })
+        else if(document.getElementById("categorylist").value ==="home"){
+          console.log("noooo");
+          filteringthearray=userArray.filter(function(category1){
+        return(category1.category=== "home");
+        })
 
-      let a=document.getElementById("bodytable");
-      let deleteChild=a.lastElementChild;
-        while(deleteChild)
-        {
-        a.removeChild(deleteChild);
-        deleteChild=a.lastElementChild;
-        } 
-        console.log("hello");
-      for (var counter = 0; counter<filteringthearray.length;counter++) 
-        {
-          console.log("bye");
-        var list=document.createElement("tr");
-        var row= "<tr id=row-"+counter+"><td></td><td>"
-        +filteringthearray[counter].todoname + "</td><td>" 
-        + filteringthearray[counter].category + "</td><td>"
-        + filteringthearray[counter].sdate+"</td><td>" 
-        + filteringthearray[counter].edate+"</td><td>"
-        + filteringthearray[counter].addtodonote+"</td><td>"
-        + filteringthearray[counter].isdone+"</td><td>"
-        + filteringthearray[counter].ispublic+"</td></tr>"
 
-        list.innerHTML=row;
-        let tableHead=document.getElementById("bodytable");
-        tableHead.appendChild(list);
-  
+        let a=document.getElementById("bodytable");
+        let deleteChild=a.lastElementChild;
+          while(deleteChild)
+          {
+          a.removeChild(deleteChild);
+          deleteChild=a.lastElementChild;
+          } 
+
+        for (var counter = 0; counter<filteringthearray.length;counter++) 
+          {
+          var list=document.createElement("tr");
+          var row= "<tr id=row-"+counter+"><td></td><td>" 
+          + filteringthearray[counter].todoname + "</td><td>" 
+          + filteringthearray[counter].category + "</td><td>"
+          + filteringthearray[counter].sdate+"</td><td>" 
+          + filteringthearray[counter].edate+"</td><td>"
+          + filteringthearray[counter].addtodonote+"</td><td>"
+          +filteringthearray[counter].isdone+"</td><td>"
+          +filteringthearray[counter].ispublic+"</td></tr>"
+
+          list.innerHTML=row;
+          let tableHead=document.getElementById("bodytable");
+          tableHead.appendChild(list);
+
+          }
         }
+
+        else if(document.getElementById("categorylist").value === "done"){
+          filteringthearray=userArray.filter(function(category1){
+            return(category1.isdone === "done");
+          })
+
+          let a=document.getElementById("bodytable");
+          let deleteChild=a.lastElementChild;
+            while(deleteChild)
+            {
+            a.removeChild(deleteChild);
+            deleteChild=a.lastElementChild;
+            } 
       
-    }
+          for (var counter = 0; counter<filteringthearray.length;counter++) 
+            {
+            var list=document.createElement("tr");
+            var row= "<tr id=row-"+counter+"><td></td><td>" 
+            + filteringthearray[counter].todoname + "</td><td>" 
+            + filteringthearray[counter].category + "</td><td>"
+            + filteringthearray[counter].sdate+"</td><td>" 
+            + filteringthearray[counter].edate+"</td><td>" 
+            + filteringthearray[counter].addtodonote+"</td><td>"
+            + filteringthearray[counter].isdone+"</td><td>"
+            +filteringthearray[counter].ispublic+"</td></tr>"
+
+            list.innerHTML=row;
+            let tableHead=document.getElementById("bodytable");
+            tableHead.appendChild(list);
+      
+            }
+          
+        }
+
+        else if(document.getElementById("categorylist").value === "pending"){
+          filteringthearray=userArray.filter(function(category1){
+            return(category1.isdone === "pending");
+          })
+
+          let a=document.getElementById("bodytable");
+          let deleteChild=a.lastElementChild;
+            while(deleteChild)
+            {
+            a.removeChild(deleteChild);
+            deleteChild=a.lastElementChild;
+            } 
+            console.log("hello");
+          for (var counter = 0; counter<filteringthearray.length;counter++) 
+            {
+              console.log("bye");
+            var list=document.createElement("tr");
+            var row= "<tr id=row-"+counter+"><td></td><td>"
+            +filteringthearray[counter].todoname + "</td><td>" 
+            + filteringthearray[counter].category + "</td><td>"
+            + filteringthearray[counter].sdate+"</td><td>" 
+            + filteringthearray[counter].edate+"</td><td>"
+            + filteringthearray[counter].addtodonote+"</td><td>"
+            + filteringthearray[counter].isdone+"</td><td>"
+            + filteringthearray[counter].ispublic+"</td></tr>"
+
+            list.innerHTML=row;
+            let tableHead=document.getElementById("bodytable");
+            tableHead.appendChild(list);
+      
+            }
+        }
 }
 
 
-function searchByName()
-{
+function searchByName() {
+
     var title=document.getElementById("search_name").value;
     var userRecordArray=mainData();
     var filteringthearray = [];
      a=document.getElementById("bodytable");
     var deleteChild=a.lastElementChild;
 
-    if(userRecordArray.length===0)
-    {
-        let newEle=document.createElement("tr");
-        var node=document.createTextNode("no todos");
-        newEle.appendChild(node);
-        userTable.appendChild(newEle); 
+    if(userRecordArray.length===0) {
+
+      let newEle=document.createElement("tr");
+      var node=document.createTextNode("no todos");
+      newEle.appendChild(node);
+      userTable.appendChild(newEle); 
     }
 
-    for(var counter=0;counter<userRecordArray.length;counter++)
-    {
-        if(userRecordArray[counter].todoname==title)
-        {
+    for(var counter=0;counter<userRecordArray.length;counter++){
+
+        if(userRecordArray[counter].todoname==title) {
             filteringthearray.push(userRecordArray[counter]);
-
         }
-
     }
 
-    while(deleteChild)
-    {
+    while(deleteChild) {
         a.removeChild(deleteChild);
         deleteChild=a.lastElementChild;
     }      
                 
-    for (var counter = 0; counter<filteringthearray.length;counter++) 
-    {
+    for (var counter = 0; counter<filteringthearray.length;counter++) {
+
         var list=document.createElement("tr");
         var row= "<tr id=row-"+counter+"><td></td><td>"
         +filteringthearray[counter].todoname + "</td><td>" 
@@ -458,9 +447,7 @@ function searchByName()
         list.innerHTML=row;
         let tableHead=document.getElementById("bodytable");
         tableHead.appendChild(list);
-        
-    }
-    
+       }
 }
 
 function filterByDate(){
@@ -477,19 +464,16 @@ function filterByDate(){
       new Date(time.edate).getTime() <= newedate.getTime())
     })
   
-  
-
     let a=document.getElementById("bodytable");
     let deleteChild=a.lastElementChild;
-      while(deleteChild)
-      {
+
+      while(deleteChild) {
       a.removeChild(deleteChild);
       deleteChild=a.lastElementChild;
       }
       
-      for (var counter = 0; counter<filteringthearray.length;counter++) 
-      {
-        console.log("bye");
+      for (var counter = 0; counter<filteringthearray.length;counter++) {
+      
       var list=document.createElement("tr");
       var row= "<tr id=row-"+counter+"><td></td><td>"+filteringthearray[counter].todoname + "</td><td>" +
       filteringthearray[counter].category + "</td><td>"+ filteringthearray[counter].sdate+"</td><td>" 
@@ -528,14 +512,17 @@ function filterByDate(){
 
     var todoname = document.getElementById("todoname").value;
     var category = document.getElementById("category").value;
-    var sdate = currentDate();
+    var sdate = document.getElementById("sdate").value;
     var edate = document.getElementById("edate").value;
     var addtodonote = document.getElementById("addtodonote").value;
     var ispublic = document.querySelector('input[name="ispublic"]:checked').value; 
-
+    //var today=new Date();
     document.getElementById("savechanges").style.display="none";
 
-    
+    if(sdate < currentDate()){
+      alert("Invalid start date");
+      return false;
+    }
     
     if(todoname=="" || addtodonote=="" ||sdate=="" || edate==""){
       alert("Fill the fields");
@@ -544,7 +531,6 @@ function filterByDate(){
 
     if(sdate >= edate){
       alert("Due Date should be greater than the start date");
-      window.location.reload();
       return false;
     }
     
@@ -588,8 +574,7 @@ function filterByDate(){
 
 
     for(var i=0;i<userRecordArray.length;i++){
-      if(unamesecond==userRecordArray[i].uname)   
-      {
+      if(unamesecond==userRecordArray[i].uname) {
 
         userRecordArray[i].todoList.push(todoobj);
           todo_add_data=JSON.stringify(userRecordArray);
@@ -599,7 +584,7 @@ function filterByDate(){
     }
   }
 
-  function reloadPage(){
-    window.location.reload();
+function reloadPage(){
+  window.location.reload();
   }
 
