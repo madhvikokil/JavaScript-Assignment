@@ -232,10 +232,7 @@ function addElement(){
             users[index].todoList.push(todoText);
             todo_add_data=JSON.stringify(users);
             localStorage.setItem("users",todo_add_data);
-
-
-          
-        }
+         }
     }
   }
 function getIndex(){

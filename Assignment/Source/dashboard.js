@@ -1,11 +1,10 @@
 function loadData(){
     var todoname = document.getElementById("todoname").value;
     var category = document.getElementById("category").value;
-    var duedate = document.getElementById("duedate").value;
-    var setremainder = document.getElementById("setremainder").value;
+    var sdate = document.getElementById("sdate").value;
+    var edate = document.getElementById("edate").value;
     var addtodonote = document.getElementById("addtodonote").value;
-    //var isdone = document.getElementById("isdone").value;
-    var public = document.querySelector('input[name="ispublic"]:checked').value; 
+    var ispublic = document.querySelector('input[name="ispublic"]:checked').value; 
     
 
     document.getElementById("savechanges").style.display="none";
@@ -42,12 +41,13 @@ function loadData(){
           var s = "<tr><td><input type=checkbox name=deleteclass></td>"+
                       "<td>"+get_inner_array[i].todoname+"</td>"+
                     "<td>"+get_inner_array[i].category+"</td>"+
-                    "<td>"+get_inner_array[i].duedate+"</td>"+
-                    "<td>"+get_inner_array[i].setremainder+"</td>"+
+                    "<td>"+get_inner_array[i].sdate+"</td>"+
+                    "<td>"+get_inner_array[i].edate+"</td>"+
                     "<td>"+get_inner_array[i].addtodonote+"</td>"+
                     "<td>"+get_inner_array[i].isdone+"</td>"+
                     "<td>"+get_inner_array[i].ispublic+"</td>"+
-                    "<td><input type=button class=edit value=edit onclick=editElement("+i+")></td></tr>";
+                    "<td><input type=button class=edit value=edit onclick=editElement("+i+")></td>"+
+                    "<td><input type=button class=delete value=delete onclick=deleteDirectly("+i+")></td></tr>";
                       li.innerHTML=s;
                      
 
@@ -57,11 +57,30 @@ function loadData(){
   }
 }
 
+function currentDate() {
+  var today = new Date();
+
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+
+  if (dd < 10) {
+      dd = '0' + dd;
+  }
+
+  if (mm < 10) {
+      mm = '0' + mm;
+  }
+
+  today = yyyy + '-' + mm + '-' + dd;
+  return today;
+}
+
 function editElement(itr){
   console.log('index->', itr);
     var userRecordArray = JSON.parse(localStorage.getItem("users"));
     sessionStorage = sessionStorage.unamesecond;
-    //var check_boxes = document.getElementsByName("deleteclass");
+
     var index = getIndex();
 
     if(userRecordArray[index].todoList[itr].ispublic == "yes")
@@ -76,14 +95,12 @@ function editElement(itr){
 
     for(count = 0;count<userRecordArray[index].todoList.length;count++){
     
-    //sessionStorage.setItem("index",count);
+    
     document.getElementById("todoname").value = userRecordArray[index].todoList[itr].todoname;
     document.getElementById("category").value = userRecordArray[index].todoList[itr].category;
-    document.getElementById("duedate").value = userRecordArray[index].todoList[itr].duedate;
-    document.getElementById("setremainder").value = userRecordArray[index].todoList[itr].setremainder;
+    document.getElementById("sdate").value = userRecordArray[index].todoList[itr].sdate;
+    document.getElementById("edate").value = userRecordArray[index].todoList[itr].edate;
     document.getElementById("addtodonote").value = userRecordArray[index].todoList[itr].addtodonote;
-    //document.getElementById("ispublicr").value = userRecordArray[index].todoList[count].ispublic;
-    //document.getElementById("isdone").value = userRecordArray[index].todoList[count].isdone;
     document.getElementById("addchanges").style.display="none";
     document.getElementById("savechanges").style.display="inline-block";
     document.getElementById("deletechanges").style.display="none"; 
@@ -93,19 +110,15 @@ function editElement(itr){
    localStorage.setItem("newindex",itr);
    return itr;
     }
-
-
-
-  
-  }
+}
 
 function saveElement(){
 
   //var itr = editElement();
   var todoname2 = document.getElementById("todoname").value;
   var category2 = document.getElementById("category").value;
-  var duedate2 = document.getElementById("duedate").value;
-  var setremainder2 = document.getElementById("setremainder").value;
+  var sdate2 = document.getElementById("sdate").value;
+  var edate2 = document.getElementById("edate").value;
   var ispublic2 = document.querySelector('input[name="ispublic"]:checked').value; 
   var addtodonote2 = document.getElementById("addtodonote").value;
   
@@ -118,8 +131,8 @@ function saveElement(){
   for(var i=0;i<userRecordArray.length;i++){
   userRecordArray[index].todoList[itr].todoname = todoname2;
   userRecordArray[index].todoList[itr].category = category2;
-  userRecordArray[index].todoList[itr].duedate = duedate2;
-  userRecordArray[index].todoList[itr].setremainder = setremainder2;
+  userRecordArray[index].todoList[itr].sdate = sdate2;
+  userRecordArray[index].todoList[itr].edate = edate2;
   userRecordArray[index].todoList[itr].ispublic = ispublic2;
   userRecordArray[index].todoList[itr].addtodonote = addtodonote2;
 
@@ -145,7 +158,9 @@ function deleteElement(){
   var userRecordArray = JSON.parse(localStorage.getItem("users"));
   var arraydelete = document.getElementsByName("deleteclass");
   var index = getIndex();
-  
+  var confirmDelete = confirm("Do you want to delete ?");
+
+  if(confirmDelete == true){
   for(var count=(userRecordArray[index].todoList.length-1);count>=0;count--)
   {
       if(arraydelete[count].checked === true)
@@ -156,10 +171,46 @@ function deleteElement(){
        console.log(arraydelete);
        
   }
+}
+
+else{
+  window.location.reload();
+}
   localStorage.setItem("users",JSON.stringify(userRecordArray));	
   window.location.reload();
 
 }
+
+function deleteDirectly(itr2){
+  console.log('index->', itr2);
+  var userRecordArray = JSON.parse(localStorage.getItem("users"));
+  var arraydelete = document.getElementsByName("deleteclass");
+  var index = getIndex();
+
+  
+  var confirmDelete = confirm("Do you want to delete?");
+  if(confirmDelete == true){
+  for(var count=(userRecordArray[index].todoList.length-1);count>=0;count--)
+  {
+     if(count ==itr2){
+        userRecordArray[index].todoList.splice(count,1);
+     }
+  
+       console.log(arraydelete);
+      
+    }
+  }
+
+  else{
+    window.location.reload();
+  }
+  
+  localStorage.setItem("users",JSON.stringify(userRecordArray));	
+
+  window.location.reload();
+
+}
+
 
 function markAsDone(){
   var userRecordArray = JSON.parse(localStorage.getItem("users"));
@@ -184,6 +235,8 @@ function search(){
     var userArray = mainData();
     var filteringthearrayarray = new Array();
     console.log("heee");
+
+     
       if(document.getElementById("categorylist").value ==="personal")
       
       {
@@ -192,7 +245,7 @@ function search(){
       return(category1.category=== "personal");
       })
 
-
+ 
       let a=document.getElementById("bodytable");
       let deleteChild=a.lastElementChild;
         while(deleteChild)
@@ -204,11 +257,11 @@ function search(){
   for (var counter = 0; counter<filteringthearray.length;counter++) 
         {
         var list=document.createElement("tr");
-        var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"+counter+"></input></td><td>"
+        var row= "<tr id=row-"+counter+"><td></td><td>"
         + filteringthearray[counter].todoname + "</td><td>"
         + filteringthearray[counter].category + "</td><td>"
-        + filteringthearray[counter].duedate+"</td><td>" 
-        + filteringthearray[counter].setremainder+"</td><td>" 
+        + filteringthearray[counter].sdate+"</td><td>" 
+        + filteringthearray[counter].edate+"</td><td>" 
         + filteringthearray[counter].addtodonote+"</td><td>"
         +filteringthearray[counter].isdone+"</td><td>"
         +filteringthearray[counter].ispublic+"</td></tr>"
@@ -239,13 +292,14 @@ function search(){
       {
       var list=document.createElement("tr");
       var row= "<tr id=row-"
-      + counter+"><td><input type=checkbox name=deleteTodo id=ch-"+counter+"></input></td><td>"
+      + counter+"><td></td><td>"
       + filteringthearray[counter].todoname + "</td><td>" 
       + filteringthearray[counter].category + "</td><td>"
-      + filteringthearray[counter].duedate+"</td><td>" 
-      + filteringthearray[counter].setremainder+"</td><td>"
+      + filteringthearray[counter].sdate+"</td><td>" 
+      + filteringthearray[counter].edate+"</td><td>"
       + filteringthearray[counter].addtodonote+"</td><td>"
-      + filteringthearray[counter].isdone+"</td></tr>";
+      + filteringthearray[counter].isdone+"</td><td>"
+      + filteringthearray[counter].ispublic+"</td></tr>"
 
       list.innerHTML=row;
       let tableHead=document.getElementById("bodytable");
@@ -272,11 +326,11 @@ function search(){
     for (var counter = 0; counter<filteringthearray.length;counter++) 
       {
       var list=document.createElement("tr");
-      var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"
-      + counter+"></input></td><td>"+filteringthearray[counter].todoname + "</td><td>" 
+      var row= "<tr id=row-"+counter+"><td></td><td>" 
+      + filteringthearray[counter].todoname + "</td><td>" 
       + filteringthearray[counter].category + "</td><td>"
-      + filteringthearray[counter].duedate+"</td><td>" 
-      + filteringthearray[counter].setremainder+"</td><td>"
+      + filteringthearray[counter].sdate+"</td><td>" 
+      + filteringthearray[counter].edate+"</td><td>"
       + filteringthearray[counter].addtodonote+"</td><td>"
       +filteringthearray[counter].isdone+"</td><td>"
       +filteringthearray[counter].ispublic+"</td></tr>"
@@ -304,11 +358,11 @@ function search(){
       for (var counter = 0; counter<filteringthearray.length;counter++) 
         {
         var list=document.createElement("tr");
-        var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"
-        + counter+"></input></td><td>"+filteringthearray[counter].todoname + "</td><td>" 
+        var row= "<tr id=row-"+counter+"><td></td><td>" 
+        + filteringthearray[counter].todoname + "</td><td>" 
         + filteringthearray[counter].category + "</td><td>"
-        + filteringthearray[counter].duedate+"</td><td>" 
-        + filteringthearray[counter].setremainder+"</td><td>" 
+        + filteringthearray[counter].sdate+"</td><td>" 
+        + filteringthearray[counter].edate+"</td><td>" 
         + filteringthearray[counter].addtodonote+"</td><td>"
         + filteringthearray[counter].isdone+"</td><td>"
         +filteringthearray[counter].ispublic+"</td></tr>"
@@ -338,11 +392,11 @@ function search(){
         {
           console.log("bye");
         var list=document.createElement("tr");
-        var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"
-        + counter+"></input></td><td>"+filteringthearray[counter].todoname + "</td><td>" 
+        var row= "<tr id=row-"+counter+"><td></td><td>"
+        +filteringthearray[counter].todoname + "</td><td>" 
         + filteringthearray[counter].category + "</td><td>"
-        + filteringthearray[counter].duedate+"</td><td>" 
-        + filteringthearray[counter].setremainder+"</td><td>"
+        + filteringthearray[counter].sdate+"</td><td>" 
+        + filteringthearray[counter].edate+"</td><td>"
         + filteringthearray[counter].addtodonote+"</td><td>"
         + filteringthearray[counter].isdone+"</td><td>"
         + filteringthearray[counter].ispublic+"</td></tr>"
@@ -354,11 +408,10 @@ function search(){
         }
       
     }
-
-   // else if(){}
 }
 
- function searchByName()
+
+function searchByName()
 {
     var title=document.getElementById("search_name").value;
     var userRecordArray=mainData();
@@ -393,11 +446,11 @@ function search(){
     for (var counter = 0; counter<filteringthearray.length;counter++) 
     {
         var list=document.createElement("tr");
-        var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"
-        + counter+"></input></td><td>"+filteringthearray[counter].todoname + "</td><td>" 
+        var row= "<tr id=row-"+counter+"><td></td><td>"
+        +filteringthearray[counter].todoname + "</td><td>" 
         + filteringthearray[counter].category + "</td><td>"
-        + filteringthearray[counter].duedate+"</td><td>" 
-        + filteringthearray[counter].setremainder+"</td><td>"
+        + filteringthearray[counter].sdate+"</td><td>" 
+        + filteringthearray[counter].edate+"</td><td>"
         + filteringthearray[counter].addtodonote+"</td><td>"
         + filteringthearray[counter].isdone+"</td><td>"
         + filteringthearray[counter].ispublic+"</td></tr>"
@@ -407,11 +460,8 @@ function search(){
         tableHead.appendChild(list);
         
     }
-
-
     
 }
-
 
 function filterByDate(){
   
@@ -423,8 +473,8 @@ function filterByDate(){
 
     var myarray = mainData();
     var filteringthearray = myarray.filter(function(time){
-      return (new Date(time.duedate).getTime() >= newsdate.getTime() && 
-      new Date(time.duedate).getTime() <= newedate.getTime())
+      return (new Date(time.sdate).getTime() >= newsdate.getTime() && 
+      new Date(time.edate).getTime() <= newedate.getTime())
     })
   
   
@@ -441,10 +491,9 @@ function filterByDate(){
       {
         console.log("bye");
       var list=document.createElement("tr");
-      var row= "<tr id=row-"+counter+"><td><input type=checkbox name=deleteTodo id=ch-"
-      +counter+"></input></td><td>"+filteringthearray[counter].todoname + "</td><td>" +
-      filteringthearray[counter].category + "</td><td>"+ filteringthearray[counter].duedate+"</td><td>" 
-      + filteringthearray[counter].setremainder+"</td><td>" + filteringthearray[counter].addtodonote+
+      var row= "<tr id=row-"+counter+"><td></td><td>"+filteringthearray[counter].todoname + "</td><td>" +
+      filteringthearray[counter].category + "</td><td>"+ filteringthearray[counter].sdate+"</td><td>" 
+      + filteringthearray[counter].edate+"</td><td>" + filteringthearray[counter].addtodonote+
       "</td><td>"+filteringthearray[counter].isdone+"</td><td>"+
       filteringthearray[counter].ispublic+"</td></tr>"
 
@@ -461,24 +510,28 @@ function filterByDate(){
 
     var todoname = document.getElementById("todoname").value;
     var category = document.getElementById("category").value;
-    var duedate = document.getElementById("duedate").value;
-    //document.getElementById('input').setAttribute("min", '2013-12-9');
-    var setremainder = document.getElementById("setremainder").value;
+    var sdate = currentDate();
+    var edate = document.getElementById("edate").value;
     var addtodonote = document.getElementById("addtodonote").value;
-   // var isdone = document.getElementById("isdone").checked ? 'done' : 'pending';
     var ispublic = document.querySelector('input[name="ispublic"]:checked').value; 
 
     document.getElementById("savechanges").style.display="none";
     
-    if(todoname=="" || addtodonote=="" ||duedate=="" || setremainder==""){
+    if(todoname=="" || addtodonote=="" ||sdate=="" || edate==""){
       alert("Fill the fields");
+      return false;
+    }
+
+    if(sdate >= edate){
+      alert("Due Date should be greater than the start date");
+      window.location.reload();
       return false;
     }
     
 
     var todoobj={
-      'todoname':todoname,'category':category ,'duedate':duedate,
-      'setremainder':setremainder,'addtodonote':addtodonote, 'isdone':"pending",
+      'todoname':todoname,'category':category ,'sdate':sdate,
+      'edate':edate,'addtodonote':addtodonote, 'isdone':"pending",
       'ispublic':ispublic
     }
 
@@ -499,8 +552,8 @@ function filterByDate(){
       
       var tr = "<tr><td>"+storage[i].todoname+"</td>"+
       "<td>"+storage[i].category+"</td>"+
-      "<td>"+storage[i].duedate+"</td>"+
-      "<td>"+storage[i].setremainder+"</td>"+
+      "<td>"+storage[i].sdate+"</td>"+
+      "<td>"+storage[i].edate+"</td>"+
       "<td>"+storage[i].addtodonote+"</td>"+
       "<td>"+storage[i].isdone+"</td>"+
       "<td>"+storage[i].ispublic+"</td></tr>"
@@ -524,5 +577,9 @@ function filterByDate(){
       }
     
     }
+  }
+
+  function reloadPage(){
+    window.location.reload();
   }
 

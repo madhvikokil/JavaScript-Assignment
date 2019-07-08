@@ -13,21 +13,22 @@
           <div id="div1" class="header">
             <h1>To Do List</h1><br> 
 
+            <div class="search-container">
+              <input type="text" placeholder="Search by name" name="search_name" id="search_name" value="">
+              <input type="button" value="Search" placeholder=Search id="searchByName" onclick="searchByName()" >
+             
+            </div>
+
       <div class="input-box">
           <input type="submit" value="Delete" placeholder="Delete" id="deletechanges"onclick="deleteElement()" >
-          <!--<input type="submit" value="Edit" placeholder="Add" id="editchanges"onclick="editElement();">-->
-          
-          <input type="text" placeholder="Search by name" name="search_name" id="search_name" value="">
-          <input type="button" value="Search" placeholder=Search id="searchByName" onclick="searchByName()" >
-         
-        </div>
+          <input type="button" value="Reset" placeholder="delete" id = "resetchanges" onclick="reloadPage();">
+        
+        </div>  
+
+       
         <div class="filter">
-
-           <!-- <button type="button" name="submit" onclick="search()">Search</button> -->
-
-
             <select id="categorylist" onchange="search()">
-              <option >Filter By</option>
+              <option onchange="loadData();" value="filterby">Filter By</option>
                 <option value="home">Home</option>
                 <option value="office" >Office</option>
                 <option value="personal">personal</option>
@@ -56,8 +57,8 @@
           <option value="home">home</option>
       </select><br><br>
 
-            Due Date : <input type="date" placeholder="Enter Lastname" name="l_name" id="duedate" value="" >
-            Set Remainder : <input type="date" placeholder="Set Remainder" name="l_name" id="setremainder" value="" ><br><br>
+            Start Date : <input type="date" placeholder="Enter Startddate" name="l_name" id="sdate" value="" >
+            Due date : <input type="date" placeholder="Enter duedate" name="l_name" id="edate" value="" ><br><br>
             Add todo note : <input type="text" placeholder="Add ToDo Note" name="l_name" id="addtodonote" value="" ><br><br>
       
             is Public 
@@ -66,9 +67,9 @@
 
             <button type="button" value="submit" id="addchanges" onclick="addtodo()"> Add todo</button>
             <button type="button" value="submit" id="markchanges" onclick="markAsDone()"> Mark done</button>
-            <input type="button" value="Savechanges" placeholder="Add" id="savechanges" onclick="saveElement();">
+            <input type="button" value="save changes" placeholder="Add" id="savechanges" onclick="saveElement();">
 
-          </div>
+          </div><br>
 
             <table width=100% id="tableid">
               <thead>
@@ -76,8 +77,8 @@
                   <th>Delete</th>
                   <th>Todo Name</th>
                   <th>Category</th>
+                  <th> Start Date</th>
                   <th> Due Date</th>
-                  <th> Set Remainder</th>
                   <th> Add Todo Note</th>
                   <th> is Done</th>
                   <th> is Public</th>
@@ -87,8 +88,5 @@
                 </tbody>
              
             </table>
-
-           
-  
   </body>
 </html>

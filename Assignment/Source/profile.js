@@ -1,5 +1,4 @@
-function insertDefaultValues()
-{
+function insertDefaultValues() {
   var userRecordArray=JSON.parse(localStorage.getItem("users"));
   var unamesession=sessionStorage.getItem("unamesecond");
   let imagesession = sessionStorage.getItem("profileSessionKey");
@@ -29,8 +28,7 @@ function insertDefaultValues()
   }
 
   
-function changeProfilePicture()
-{
+function changeProfilePicture() {
 let image = document.getElementById("profilepic").files[0];
 
 getimgbase64(image);
