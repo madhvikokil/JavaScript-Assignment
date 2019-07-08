@@ -528,15 +528,8 @@ function filterByDate(){
 
     var todoname = document.getElementById("todoname").value;
     var category = document.getElementById("category").value;
-<<<<<<< HEAD
     var sdate = currentDate();
     var edate = document.getElementById("edate").value;
-=======
-    var duedate = currentDate();
-    //document.getElementById('input').setAttribute("min", '2013-12-9');
-    //var setremainder = document.getElementById("setremainder").value;
-    var setremainder = document.getElementById("setremainder").value;
->>>>>>> 7cc2f1d4f38e220b9a8b1b95c6f07fbcf635d633
     var addtodonote = document.getElementById("addtodonote").value;
     var ispublic = document.querySelector('input[name="ispublic"]:checked').value; 
 
