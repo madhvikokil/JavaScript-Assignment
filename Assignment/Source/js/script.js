@@ -49,8 +49,7 @@ function register() {
             
           }
 
-
-          var addressRegex = '^[a-zA-Z]+$';
+          var addressRegex = '^[ A-Za-z0-9_@./#&+-]*$';
           var addressResult = address.match(addressRegex);
 
           if(!addressResult){
@@ -65,7 +64,7 @@ function register() {
           }
 
 
-          var usernameRegex =  '^[a-zA-Z]+$';
+          var usernameRegex =  '^[A-Za-z0-9]+$';
           var usernameResult = uname.match(usernameRegex);
 
           if(!usernameResult){
@@ -250,5 +249,8 @@ function dashboard(){
   window.open("dashboard.html","_self");
 }
 
+function signup(){
+  window.open("signup.html","_self");
+}
 
  

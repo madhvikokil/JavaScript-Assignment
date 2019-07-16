@@ -103,7 +103,7 @@ function profileChanges(){
           var addressResult = add_ress.match(addressRegex);
 
         if(!addressResult){
-            alert("Address");
+            alert("      Address");
             document.getElementById("add_ress").style.border="2px solid red";
             return false;
           }

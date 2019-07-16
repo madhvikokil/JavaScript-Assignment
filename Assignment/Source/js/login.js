@@ -18,7 +18,6 @@ function validation(){
         sessionStorage.setItem('unamesecond' ,unamesecond);
           
         // Retrieve data
-        alert("Hi, " +  sessionStorage.getItem('unamesecond'));
         window.open("dashboard.html","_self");
         }
         else{

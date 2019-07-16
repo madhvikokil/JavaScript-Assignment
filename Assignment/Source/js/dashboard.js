@@ -458,6 +458,11 @@ function filterByDate(){
     var newsdate = new Date(startdate);
     var newedate = new Date(enddate);
 
+    if(newedate <= newsdate){
+      alert("Due Date should be greater than the start date");
+      return false;
+    }
+
     var myarray = mainData();
     var filteringthearray = myarray.filter(function(time){
       return (new Date(time.sdate).getTime() >= newsdate.getTime() && 
